@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kirani Nurul Azmi — Cloud Ops & Infrastructure Engineer | kiraninrl.my.id</title>
+  <meta name="description" content="Portofolio Kirani Nurul Azmi - L1 Cloud Ops Engineer (OpenShift, Kubernetes, RHEL, RHCSA) & Infrastructure Automation." />
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            redhat: {
+              500: '#EE0000',
+              600: '#CC0000',
+            },
+            surface: {
+              dark: '#0B0F19',
+              card: '#111827',
+              border: '#1F2937'
+            }
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Subtle background grid pattern - pure CSS, zero JS overhead */
+    .bg-grid-dark {
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    }
+    .bg-grid-light {
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+    }
+
+    /* Custom scrollbar for terminal */
+    .terminal-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .terminal-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .terminal-scroll::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.25);
+      border-radius: 9999px;
+    }
+    .terminal-scroll::-webkit-scrollbar-thumb:hover {
+      background: rgba(148, 163, 184, 0.45);
+    }
+
+    /* Smooth reveal transitions */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.45s ease-out, transform 0.45s ease-out;
+    }
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-surface-dark dark:text-slate-100 bg-grid-light dark:bg-grid-dark font-sans antialiased transition-colors duration-300 selection:bg-emerald-500/20 selection:text-emerald-400">
+
+  <!-- Sticky Glass Navbar -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 dark:bg-surface-dark/80 border-b border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <!-- Brand / Domain Prompt -->
+      <a href="#" class="flex items-center gap-2.5 group">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="font-mono text-sm sm:text-base font-semibold tracking-tight text-slate-900 dark:text-white group-hover:text-emerald-500 dark:group-hover:text-emerald-400 transition-colors">
+          kirani@kiraninrl.my.id<span class="text-emerald-500">:~$</span>
+        </span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600 dark:text-slate-300">
+        <a href="#about" class="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Tentang</a>
+        <a href="#skills" class="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Tech Stack</a>
+        <a href="#projects" class="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Proyek</a>
+        <a href="#credentials" class="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Sertifikasi & Karier</a>
+        <a href="#contact" class="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Kontak</a>
+      </nav>
+
+      <!-- Actions: Theme Toggle & Mobile Menu Button -->
+      <div class="flex items-center gap-2">
+        <button id="theme-toggle" aria-label="Toggle Dark/Light Theme" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 text-slate-700 dark:text-slate-300 hover:border-emerald-500/50 hover:text-emerald-500 transition-all">
+          <!-- Sun Icon (shown in dark mode) -->
+          <svg id="icon-sun" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+          </svg>
+          <!-- Moon Icon (shown in light mode) -->
+          <svg id="icon-moon" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <button id="mobile-menu-btn" aria-label="Buka Menu" class="md:hidden p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 text-slate-700 dark:text-slate-300">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-surface-dark px-4 py-3 space-y-2">
+      <a href="#about" class="block py-2 px-3 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800/70">Tentang</a>
+      <a href="#skills" class="block py-2 px-3 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800/70">Tech Stack</a>
+      <a href="#projects" class="block py-2 px-3 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800/70">Proyek</a>
+      <a href="#credentials" class="block py-2 px-3 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800/70">Sertifikasi & Karier</a>
+      <a href="#contact" class="block py-2 px-3 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800/70">Kontak</a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6">
+
+    <!-- HERO SECTION + INTERACTIVE TERMINAL -->
+    <section class="pt-12 pb-16 md:pt-20 md:pb-24 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <!-- Left Column: Intro & Status -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>SLA 99.99% Uptime • Enterprise Cloud Ops</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
+          Halo, saya <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-cyan-500">Kirani Nurul Azmi</span>.
+        </h1>
+
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+          <strong class="font-semibold text-slate-900 dark:text-white">L1 Cloud Ops Engineer</strong> di PT Boer Technology (Btech), mengelola infrastruktur <span class="font-mono text-sm px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-800 dark:text-emerald-300">OpenShift (OCP)</span> &amp; <span class="font-mono text-sm px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-800 dark:text-cyan-300">Kubernetes</span> skala perbankan enterprise dengan fokus pada reliabilitas sistem, Linux, dan otomatisasi.
+        </p>
+
+        <!-- Key Highlights Pills -->
+        <div class="flex flex-wrap gap-2 text-xs font-mono">
+          <span class="px-3 py-1.5 rounded-lg bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20 font-medium">
+            RHCSA Certified
+          </span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-200/70 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border border-slate-300/60 dark:border-slate-700">
+            Red Hat Academy Ambassador '25
+          </span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-200/70 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border border-slate-300/60 dark:border-slate-700">
+            1st Place LKS ITNSA Kab. Tegal '26
+          </span>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="pt-2 flex flex-wrap items-center gap-3">
+          <a href="#projects" class="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm shadow-lg shadow-emerald-600/20 transition-all">
+            Lihat Proyek &amp; Repo
+          </a>
+          <a href="https://github.com/kiraninurul" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/70 hover:border-emerald-500/60 text-sm font-medium transition-all">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+            <span>@kiraninurul</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Mini Bash Terminal -->
+      <div class="lg:col-span-6">
+        <div class="rounded-2xl overflow-hidden border border-slate-300 dark:border-slate-800 bg-slate-950 text-slate-100 shadow-2xl shadow-black/25">
+          <!-- Terminal Top Bar -->
+          <div class="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-rose-500/90"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-400/90"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500/90"></span>
+              <span class="ml-2 font-mono text-xs text-slate-400">bash — kirani@ocp-bastion:~</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span id="gh-terminal-badge" class="font-mono text-[11px] text-emerald-400">gh: syncing...</span>
+              <button id="terminal-clear-btn" class="text-xs font-mono text-slate-400 hover:text-emerald-400 transition-colors">
+                clear
+              </button>
+            </div>
+          </div>
+
+          <!-- Terminal Output Area -->
+          <div id="terminal-output" class="p-4 h-72 sm:h-80 overflow-y-auto terminal-scroll font-mono text-xs sm:text-sm space-y-2.5 leading-relaxed">
+            <div class="text-slate-400">
+              Welcome to <span class="text-emerald-400 font-semibold">kiraninrl.my.id</span> interactive shell v1.1.0
+            </div>
+            <div class="text-slate-400">
+              Ketik <span class="text-cyan-400">help</span> atau klik tombol perintah di bawah untuk menjelajah profil &amp; GitHub <span class="text-emerald-400">@kiraninurul</span>.
+            </div>
+          </div>
+
+          <!-- Quick Command Chips (Mobile & Desktop Friendly) -->
+          <div class="px-4 py-2.5 bg-slate-900/70 border-t border-slate-800/90 flex flex-wrap items-center gap-1.5">
+            <span class="text-[11px] font-mono text-slate-500 mr-1">Quick run:</span>
+            <button type="button" data-cmd="whoami" class="cmd-chip px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-700 transition-colors">whoami</button>
+            <button type="button" data-cmd="gh status" class="cmd-chip px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-700 transition-colors">gh status</button>
+            <button type="button" data-cmd="gh repos" class="cmd-chip px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-700 transition-colors">gh repos</button>
+            <button type="button" data-cmd="skills" class="cmd-chip px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-700 transition-colors">skills</button>
+            <button type="button" data-cmd="certs" class="cmd-chip px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-700 transition-colors">certs</button>
+            <button type="button" data-cmd="oc get nodes" class="cmd-chip px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-700 transition-colors">oc get nodes</button>
+          </div>
+            <button id="terminal-clear-btn" class="text-xs font-mono text-slate-400 hover:text-emerald-400 transition-colors">
+              clear
+            </button>
+          </div>
+
+          <!-- Terminal Output Area -->
+          <div id="terminal-output" class="p-4 h-72 sm:h-80 overflow-y-auto terminal-scroll font-mono text-xs sm:text-sm space-y-2.5 leading-relaxed">
+            <div class="text-slate-400">
+              Welcome to <span class="text-emerald-400 font-semibold">kiraninrl.my.id</span> interactive shell v1.0.0
+            </div>
+            <div class="text-slate-400">
+              Ketik <span class="text-cyan-400">help</span> atau klik tombol perintah di bawah untuk menjelajah profil.
+            </div>
+          </div>
+
+          <!-- Quick Command Chips (Mobile & Desktop Friendly) -->
+          <div class="px-4 py-2.5 bg-slate-900/70 border-t border-slate-800/90 flex flex-wrap items-center gap-1.5">
+            <span class="text-[11px] font-mono text-slate-500 mr-1">Quick run:</span>
+            <button type="button" data-cmd="whoami" class="cmd-chip px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-700 transition-colors">whoami</button>
+            <button type="button" data-cmd="skills" class="cmd-chip px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-700 transition-colors">skills</button>
+            <button type="button" data-cmd="projects" class="cmd-chip px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-700 transition-colors">projects</button>
+            <button type="button" data-cmd="certs" class="cmd-chip px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-700 transition-colors">certs</button>
+            <button type="button" data-cmd="status" class="cmd-chip px-2.5 py-1 rounded-md text-xs font-mono bg-slate-800 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-700 transition-colors">oc get nodes</button>
+          </div>
+
+          <!-- Terminal Input Form -->
+          <form id="terminal-form" class="px-4 py-3 bg-slate-950 border-t border-slate-800 flex items-center gap-2">
+            <span class="font-mono text-xs sm:text-sm text-emerald-400 shrink-0">kirani@kiraninrl:~$</span>
+            <input
+              id="terminal-input"
+              type="text"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="ketik 'help' lalu Enter..."
+              class="w-full bg-transparent font-mono text-xs sm:text-sm text-slate-100 placeholder-slate-600 focus:outline-none"
+            />
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT & OPERATIONAL METRICS -->
+    <section id="about" class="py-14 border-t border-slate-200/80 dark:border-slate-800/80 fade-in-up">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-7 space-y-4">
+          <p class="font-mono text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold">01 // Tentang Saya</p>
+          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Menjaga Infrastruktur Kritis Tetap Tangguh &amp; Terotomatisasi</h2>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base">
+            Saat ini saya bertugas sebagai <strong>L1 Cloud Ops Engineer</strong> di PT Boer Technology (Btech), mendukung operasional klaster <strong>OpenShift Container Platform (OCP)</strong> dan <strong>Kubernetes</strong> untuk lingkungan enterprise perbankan (PT Bank Rakyat Indonesia) dengan target ketersediaan <strong>99.99% SLA</strong>.
+          </p>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base">
+            Berangkat dari latar belakang Teknik Komputer dan Jaringan (SMKN 1 Adiwerna) dan saat ini menempuh studi S1 Sistem Informasi di <strong>Universitas Terbuka (UPBJJ Jakarta)</strong>, saya terbiasa bekerja langsung di lingkungan <em>command-line</em> Linux (RHEL), membangun kontainerisasi ringan dengan Podman/Buildah, serta menulis skrip Python dan Bash untuk memangkas tugas operasional berulang.
+          </p>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+          <div class="p-5 rounded-2xl bg-white dark:bg-surface-card border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="font-mono text-2xl sm:text-3xl font-bold text-emerald-600 dark:text-emerald-400">99.99%</div>
+            <div class="mt-1 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">Enterprise SLA Uptime</div>
+            <div class="mt-1 text-xs text-slate-500">Banking OCP &amp; K8s Ops</div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white dark:bg-surface-card border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="font-mono text-2xl sm:text-3xl font-bold text-red-600 dark:text-red-400">RHCSA</div>
+            <div class="mt-1 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">Red Hat Certified</div>
+            <div class="mt-1 text-xs text-slate-500">System Administrator</div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white dark:bg-surface-card border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="font-mono text-2xl sm:text-3xl font-bold text-cyan-600 dark:text-cyan-400">1st</div>
+            <div class="mt-1 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">Juara 1 LKS ITNSA</div>
+            <div class="mt-1 text-xs text-slate-500">Kabupaten Tegal 2026</div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white dark:bg-surface-card border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="font-mono text-2xl sm:text-3xl font-bold text-amber-600 dark:text-amber-400">24/7</div>
+            <div class="mt-1 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">Day-2 Operations</div>
+            <div class="mt-1 text-xs text-slate-500">Monitoring &amp; Automation</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE TECH STACK FILTER -->
+    <section id="skills" class="py-14 border-t border-slate-200/80 dark:border-slate-800/80 fade-in-up">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold">02 // Tech Stack &amp; Tools</p>
+          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight mt-1">Ekosistem Teknologi Sehari-hari</h2>
+        </div>
+
+        <!-- Interactive Category Filter Buttons -->
+        <div id="skill-filters" class="flex flex-wrap gap-2">
+          <button data-filter="all" class="skill-filter-btn active px-3.5 py-2 rounded-xl text-xs font-mono font-medium bg-emerald-600 text-white transition-all">
+            Semua (14)
+          </button>
+          <button data-filter="cloud" class="skill-filter-btn px-3.5 py-2 rounded-xl text-xs font-mono font-medium bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/50 transition-all">
+            Cloud &amp; Orchestration
+          </button>
+          <button data-filter="container" class="skill-filter-btn px-3.5 py-2 rounded-xl text-xs font-mono font-medium bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/50 transition-all">
+            Containers &amp; Linux
+          </button>
+          <button data-filter="automation" class="skill-filter-btn px-3.5 py-2 rounded-xl text-xs font-mono font-medium bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/50 transition-all">
+            Automation &amp; Workflow
+          </button>
+        </div>
+      </div>
+
+      <!-- Skills Grid -->
+      <div id="skills-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Populated dynamically via lightweight JS -->
+      </div>
+    </section>
+
+    <!-- FEATURED PROJECTS & LIVE GITHUB REPOSITORIES -->
+    <section id="projects" class="py-14 border-t border-slate-200/80 dark:border-slate-800/80 fade-in-up">
+      <!-- Live GitHub Profile Bar -->
+      <div class="mb-8 p-5 rounded-2xl bg-white dark:bg-surface-card border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <img
+            id="gh-avatar"
+            src="https://github.com/kiraninurul.png"
+            onerror="this.src='https://placehold.co/80x80/111827/10b981?text=KN'"
+            alt="Avatar GitHub kiraninurul"
+            class="w-12 h-12 rounded-xl border border-slate-200 dark:border-slate-700 object-cover shrink-0"
+          />
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="https://github.com/kiraninurul" target="_blank" rel="noopener noreferrer" class="font-bold text-base sm:text-lg text-slate-900 dark:text-white hover:text-emerald-500 transition-colors">
+                github.com/kiraninurul
+              </a>
+              <span id="gh-sync-status" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Connecting to @kiraninurul...</span>
+              </span>
+            </div>
+            <p id="gh-bio" class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
+              Cloud Ops Engineer • OpenShift, Kubernetes, RHEL &amp; Infrastructure Automation
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 sm:gap-5 font-mono text-xs shrink-0">
+          <div class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
+            <div id="gh-repo-count" class="text-base font-bold text-slate-900 dark:text-white">—</div>
+            <div class="text-[11px] text-slate-500">Public Repos</div>
+          </div>
+          <div class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
+            <div id="gh-followers-count" class="text-base font-bold text-slate-900 dark:text-white">—</div>
+            <div class="text-[11px] text-slate-500">Followers</div>
+          </div>
+          <a href="https://github.com/kiraninurul?tab=repositories" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-800 hover:bg-emerald-600 text-white font-medium transition-colors">
+            GitHub &nearr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Section Header + Filter & Search Controls -->
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-8">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold">03 // Proyek &amp; Repositori GitHub</p>
+          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight mt-1">Solusi Infrastruktur &amp; Synced Repositories</h2>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+          <!-- Tab Filter -->
+          <div id="project-tabs" class="flex flex-wrap gap-1.5">
+            <button data-tab="all" class="proj-tab-btn px-3 py-2 rounded-xl text-xs font-mono font-medium bg-emerald-600 text-white transition-all">
+              All
+            </button>
+            <button data-tab="featured" class="proj-tab-btn px-3 py-2 rounded-xl text-xs font-mono font-medium bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/50 transition-all">
+              Featured
+            </button>
+            <button data-tab="synced" class="proj-tab-btn px-3 py-2 rounded-xl text-xs font-mono font-medium bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/50 transition-all">
+              Synced Repos
+            </button>
+          </div>
+
+          <!-- Search & Language Filter -->
+          <div class="flex items-center gap-2">
+            <input
+              id="project-search"
+              type="text"
+              placeholder="Cari repo / topik..."
+              class="w-full sm:w-44 px-3 py-2 rounded-xl text-xs font-mono bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
+            />
+            <select
+              id="project-lang-filter"
+              aria-label="Filter Bahasa Pemrograman"
+              class="px-3 py-2 rounded-xl text-xs font-mono bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:border-emerald-500"
+            >
+              <option value="all">Semua Bahasa</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Populated dynamically via lightweight JS -->
+      </div>
+    </section>
+
+    <!-- CREDENTIALS, EXPERIENCE & EDUCATION -->
+    <section id="credentials" class="py-14 border-t border-slate-200/80 dark:border-slate-800/80 fade-in-up">
+      <div class="mb-8">
+        <p class="font-mono text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold">04 // Rekam Jejak &amp; Kredensial</p>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight mt-1">Pengalaman, Sertifikasi &amp; Pendidikan</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Left: Experience & Leadership -->
+        <div class="space-y-4">
+          <h3 class="font-mono text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Pengalaman &amp; Komunitas</h3>
+
+          <div class="p-5 rounded-2xl bg-white dark:bg-surface-card border border-slate-200 dark:border-slate-800 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-semibold text-base text-slate-900 dark:text-white">L1 Cloud Ops Engineer</span>
+              <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">Present</span>
+            </div>
+            <div class="text-sm font-medium text-emerald-600 dark:text-emerald-400">PT Boer Technology (Btech) — Enterprise Banking Client (BRI)</div>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Operasional Day-2 pada klaster Red Hat OpenShift Container Platform (OCP) dan Kubernetes, pemantauan kesehatan node &amp; sertifikat, troubleshooting insiden produksi, dan menjaga SLA 99.99%.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white dark:bg-surface-card border border-slate-200 dark:border-slate-800 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-semibold text-base text-slate-900 dark:text-white">Red Hat Academy Student Ambassador</span>
+              <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-red-500/10 text-red-600 dark:text-red-400">2025</span>
+            </div>
+            <div class="text-sm font-medium text-slate-700 dark:text-slate-300">Red Hat Academy Alumni &amp; Industry Speaker</div>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Berbagi pengetahuan praktis mengenai administrasi Linux enterprise, kontainerisasi, serta persiapan sertifikasi industri dalam berbagai sesi komunitas dan seminar teknologi.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Certifications, Awards & Education -->
+        <div class="space-y-4">
+          <h3 class="font-mono text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Sertifikasi, Prestasi &amp; Pendidikan</h3>
+
+          <div class="p-5 rounded-2xl bg-white dark:bg-surface-card border border-slate-200 dark:border-slate-800 space-y-3">
+            <div class="flex items-start gap-3">
+              <div class="p-2 rounded-xl bg-red-500/10 text-red-600 dark:text-red-400 shrink-0 mt-0.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-sm sm:text-base">Red Hat Certified System Administrator (RHCSA)</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Sertifikasi resmi administrasi sistem Red Hat Enterprise Linux (RHEL).</div>
+              </div>
+            </div>
+
+            <div class="border-t border-slate-200/80 dark:border-slate-800 pt-3 flex items-start gap-3">
+              <div class="p-2 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-sm sm:text-base">Juara 1 LKS IT Network Systems Administration</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Tingkat Kabupaten Tegal Tahun 2026 — Kompetensi administrasi server, jaringan, dan keamanan sistem.</div>
+              </div>
+            </div>
+
+            <div class="border-t border-slate-200/80 dark:border-slate-800 pt-3 flex items-start gap-3">
+              <div class="p-2 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 shrink-0 mt-0.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-sm sm:text-base">S1 Sistem Informasi — Universitas Terbuka</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">UPBJJ UT Jakarta • Alumni Teknik Komputer &amp; Jaringan (TKJ), SMKN 1 Adiwerna.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT & DEPLOYMENT STATUS FOOTER CARD -->
+    <section id="contact" class="py-14 border-t border-slate-200/80 dark:border-slate-800/80 fade-in-up">
+      <div class="rounded-3xl p-6 sm:p-10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 text-white border border-slate-800 shadow-xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7 space-y-4">
+            <span class="inline-block font-mono text-xs px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+              kiraninrl.my.id • Open for Collaboration &amp; Tech Sharing
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Mari Terhubung &amp; Diskusi Infrastruktur!</h2>
+            <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+              Tertarik berdiskusi seputar OpenShift, Kubernetes, Linux RHEL, otomatisasi DevOps, atau peluang kolaborasi teknis? Jangan ragu untuk menghubungi saya.
+            </p>
+
+            <!-- Social & GitHub Links -->
+            <div class="pt-2 flex flex-wrap gap-3">
+              <a href="https://github.com/kiraninurul" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-medium border border-slate-700 transition-colors">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+                <span>github.com/kiraninurul</span>
+              </a>
+
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-medium border border-slate-700 transition-colors">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path></svg>
+                <span>LinkedIn</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Interactive Copy-to-Clipboard Email Box -->
+          <div class="lg:col-span-5">
+            <div class="p-5 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-3">
+              <div class="text-xs font-mono text-slate-400">Direct Contact Endpoint</div>
+              <div class="flex items-center justify-between gap-2 p-3 rounded-xl bg-slate-900 border border-slate-800">
+                <code id="email-text" class="font-mono text-xs sm:text-sm text-emerald-400 truncate">hello@kiraninrl.my.id</code>
+                <button id="copy-email-btn" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-medium shrink-0 transition-colors">
+                  Copy
+                </button>
+              </div>
+              <p id="copy-feedback" class="text-xs font-mono text-emerald-400 h-4"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Minimalist Footer -->
+  <footer class="border-t border-slate-200/80 dark:border-slate-800/80 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400 font-mono">
+      <div>&copy; <span id="current-year"></span> Kirani Nurul Azmi • kiraninrl.my.id</div>
+      <div>Zero-bloat static build • Ready for Cloudflare Pages / GitHub Pages</div>
+    </div>
+  </footer>
+
+  <!-- Project Detail Modal (Hidden by default) -->
+  <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+    <div class="relative w-full max-w-2xl max-h-[88vh] overflow-y-auto terminal-scroll rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-7 shadow-2xl space-y-4">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <span id="modal-category" class="font-mono text-xs text-emerald-600 dark:text-emerald-400 font-semibold uppercase"></span>
+          <h3 id="modal-title" class="text-xl sm:text-2xl font-bold mt-1"></h3>
+        </div>
+        <button id="close-modal-btn" aria-label="Tutup Detail" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-rose-500 transition-colors shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <p id="modal-desc" class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed"></p>
+
+      <div id="modal-highlights-box" class="p-4 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
+        <div class="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Arsitektur &amp; Highlight Teknis</div>
+        <ul id="modal-highlights" class="list-disc list-inside text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-1.5"></ul>
+      </div>
+
+      <!-- Live README Snippet Preview (For GitHub Synced Repos) -->
+      <div id="modal-readme-box" class="hidden p-4 rounded-xl bg-slate-950 text-slate-200 border border-slate-800 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="font-mono text-xs font-semibold text-emerald-400 uppercase">README.md Preview (@kiraninurul)</span>
+          <span id="modal-readme-status" class="font-mono text-[11px] text-slate-400"></span>
+        </div>
+        <pre id="modal-readme-content" class="font-mono text-xs text-slate-300 whitespace-pre-wrap break-words max-h-48 overflow-y-auto terminal-scroll leading-relaxed"></pre>
+      </div>
+
+      <div id="modal-tags" class="flex flex-wrap gap-2 pt-1"></div>
+
+      <div class="pt-3 flex items-center justify-between gap-3 border-t border-slate-200 dark:border-slate-800">
+        <span id="modal-meta" class="font-mono text-xs text-slate-500 dark:text-slate-400"></span>
+        <a id="modal-repo-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-medium transition-colors">
+          <span>Buka Repositori GitHub</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vanilla JavaScript (Lightweight, Zero External Dependencies) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Set Dynamic Year
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+
+      // 2. Theme Toggle (Dark / Light Mode with localStorage persistence)
+      const htmlEl = document.documentElement;
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        htmlEl.classList.remove('dark');
+      } else {
+        htmlEl.classList.add('dark');
+      }
+
+      themeToggleBtn.addEventListener('click', () => {
+        htmlEl.classList.toggle('dark');
+        localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
+      });
+
+      // 3. Mobile Menu Toggle
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+      });
+
+      // 4. Tech Stack Data & Interactive Filter
+      const skillsData = [
+        { name: 'Red Hat OpenShift (OCP)', category: 'cloud', level: 'Enterprise Production', desc: 'Cluster operations, routes, operators & troubleshooting' },
+        { name: 'Kubernetes', category: 'cloud', level: 'Orchestration', desc: 'Workloads, RBAC, networking & health monitoring' },
+        { name: 'AWS Cloud', category: 'cloud', level: 'Cloud Infrastructure', desc: 'EC2, VPC networking, IAM & cloud deployment' },
+        { name: 'RHEL (Red Hat Linux)', category: 'container', level: 'RHCSA Certified', desc: 'System hardening, storage, systemd & SELinux' },
+        { name: 'Podman & Buildah', category: 'container', level: 'Rootless Containers', desc: 'Containerfile builds, pods & systemd integration' },
+        { name: 'Docker', category: 'container', level: 'Containerization', desc: 'Multi-stage images, compose & registry management' },
+        { name: 'systemd', category: 'container', level: 'Service Management', desc: 'Rootless container units, timers & daemon hardening' },
+        { name: 'Ansible', category: 'automation', level: 'Configuration Mgmt', desc: 'Idempotent playbooks & server provisioning' },
+        { name: 'Python', category: 'automation', level: 'Ops Scripting & Bots', desc: 'API integrations, cert monitoring & Telegram bots' },
+        { name: 'Bash Shell', category: 'automation', level: 'CLI & Grading Scripts', desc: 'Automated lab validation & system maintenance' },
+        { name: 'GitLab CI/CD', category: 'automation', level: 'Pipelines', desc: 'Automated build, test & deployment workflows' },
+        { name: 'tmux', category: 'container', level: 'Terminal Multiplexer', desc: 'Persistent remote SSH & multi-pane ops sessions' },
+        { name: 'Neovim', category: 'automation', level: 'CLI Code Editor', desc: 'Fast YAML, Python & Bash editing over SSH' },
+        { name: 'Enterprise Monitoring', category: 'cloud', level: '99.99% SLA', desc: 'Proactive alerting, certificate lifecycle & log analysis' }
+      ];
+
+      const skillsGrid = document.getElementById('skills-grid');
+      const filterBtns = document.querySelectorAll('.skill-filter-btn');
+
+      function renderSkills(filter = 'all') {
+        const filtered = filter === 'all' ? skillsData : skillsData.filter(s => s.category === filter);
+        skillsGrid.innerHTML = filtered.map(skill => `
+          <div class="p-4 rounded-2xl bg-white dark:bg-surface-card border border-slate-200 dark:border-slate-800 hover:border-emerald-500/50 transition-all group">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-mono text-xs text-emerald-600 dark:text-emerald-400 font-medium">${skill.level}</span>
+              <span class="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:bg-emerald-500 transition-colors"></span>
+            </div>
+            <h3 class="font-semibold text-base mt-1.5 text-slate-900 dark:text-white">${skill.name}</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">${skill.desc}</p>
+          </div>
+        `).join('');
+      }
+      renderSkills('all');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => {
+            b.classList.remove('bg-emerald-600', 'text-white');
+            b.classList.add('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300');
+          });
+          btn.classList.remove('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300');
+          btn.classList.add('bg-emerald-600', 'text-white');
+          renderSkills(btn.dataset.filter);
+        });
+      });
+
+      // 5. Featured Projects + Live GitHub Integration (@kiraninurul)
+      const GITHUB_USERNAME = 'kiraninurul';
+      const featuredProjects = [
+        {
+          id: 'ex188-lab-grader',
+          repoName: 'ex188',
+          type: 'featured',
+          category: 'Featured • Red Hat EX188 Prep',
+          title: 'ex188-lab-grader & Podman Stacks',
+          shortDesc: 'Kumpulan skenario latihan praktis, Containerfile, multi-container Podman stack, layanan systemd user, dan skrip grading Bash otomatis untuk persiapan ujian RHCS in Containers (EX188).',
+          fullDesc: 'Repositori lab mandiri yang mensimulasikan skenario ujian praktik Red Hat Certified Specialist in Containers (EX188). Mencakup pembuatan image kustom, orkestrasi multi-kontainer rootless menggunakan Podman, persistensi layanan via systemd user units, serta skrip Bash grader untuk memvalidasi hasil pekerjaan secara otomatis.',
+          highlights: [
+            'Definisi Containerfile teroptimasi dan manajemen image lokal/registry menggunakan Podman & Buildah.',
+            'Konfigurasi rootless container berjalan otomatis saat boot menggunakan systemd user services.',
+            'Skrip Bash grading otomatis untuk memeriksa status kontainer, port mapping, volume, dan environment variables.'
+          ],
+          language: 'Shell',
+          stars: null,
+          forks: null,
+          updatedAt: 'Featured Lab',
+          tags: ['Podman', 'Buildah', 'RHEL', 'systemd', 'Bash', 'EX188'],
+          repoUrl: 'https://github.com/kiraninurul/ex188'
+        },
+        {
+          id: 'cert-bot',
+          repoName: 'cert-bot',
+          type: 'featured',
+          category: 'Featured • Python & Kubernetes Ops',
+          title: 'cert-bot (Certificate Expiration Notifier)',
+          shortDesc: 'Bot notifikasi Telegram otomatis berbasis Python untuk memantau masa berlaku sertifikat klaster Kubernetes dari data SharePoint dan Google Sheets.',
+          fullDesc: 'Dirancang untuk mencegah downtime akibat sertifikat TLS/SSL yang kedaluwarsa pada lingkungan klaster Kubernetes. Bot ini menarik jadwal masa berlaku sertifikat secara berkala dari SharePoint dan Google Sheets, menghitung sisa hari, serta mengirimkan peringatan berjenjang ke grup Telegram tim operasional.',
+          highlights: [
+            'Sinkronisasi otomatis data inventaris sertifikat dari Microsoft SharePoint & Google Sheets API.',
+            'Logika ambang batas peringatan (H-30, H-14, H-7, hingga kritis) via Telegram Bot API.',
+            'Mengurangi risiko human-error dalam pemantauan siklus hidup sertifikat klaster.'
+          ],
+          language: 'Python',
+          stars: null,
+          forks: null,
+          updatedAt: 'Featured Automation',
+          tags: ['Python', 'Kubernetes', 'Telegram Bot API', 'SharePoint', 'Google Sheets'],
+          repoUrl: 'https://github.com/kiraninurul'
+        },
+        {
+          id: 'enterprise-ocp-ops',
+          repoName: null,
+          type: 'featured',
+          category: 'Featured • Enterprise Cloud Operations',
+          title: 'Enterprise OpenShift & K8s Day-2 Operations',
+          shortDesc: 'Operasional harian infrastruktur OpenShift Container Platform (OCP) skala perbankan enterprise untuk memastikan reliabilitas layanan dan kepatuhan SLA 99.99%.',
+          fullDesc: 'Bertanggung jawab dalam menjaga stabilitas platform kontainer produksi di lingkungan perbankan enterprise (PT Bank Rakyat Indonesia) melalui PT Boer Technology (Btech), mencakup pemantauan proaktif, penanganan insiden, dan otomasi tugas rutin.',
+          highlights: [
+            'Pemantauan kesehatan klaster OCP, status worker/infra nodes, operator, dan kapasitas resource.',
+            'Investigasi log aplikasi & infrastruktur serta eskalasi terstruktur untuk menjaga target 99.99% SLA.',
+            'Penerapan otomasi pemeriksaan harian untuk mempercepat waktu respons tim operasional.'
+          ],
+          language: 'YAML',
+          stars: null,
+          forks: null,
+          updatedAt: '99.99% SLA',
+          tags: ['OpenShift (OCP)', 'Kubernetes', 'RHEL', 'Ansible', '99.99% SLA'],
+          repoUrl: 'https://github.com/kiraninurul'
+        }
+      ];
+
+      // Graceful fallback repositories if GitHub API rate limit is reached
+      const fallbackSyncedRepos = [
+        {
+          id: 'gh-ex188',
+          repoName: 'ex188',
+          type: 'synced',
+          category: 'GitHub Repository • @kiraninurul',
+          title: 'ex188',
+          shortDesc: 'Praktik kontainerisasi rootless Podman, Containerfile, systemd user units, dan lab grading otomatis untuk persiapan Red Hat EX188.',
+          fullDesc: 'Repositori publik di github.com/kiraninurul/ex188 untuk latihan manajemen kontainer menggunakan Podman, Buildah, dan systemd pada Red Hat Enterprise Linux.',
+          highlights: [
+            'Rootless container deployment dan pengelolaan volume persisten.',
+            'Integrasi systemd user services untuk auto-start kontainer.',
+            'Skrip otomatis verifikasi skenario ujian EX188.'
+          ],
+          language: 'Shell',
+          stars: 1,
+          forks: 0,
+          updatedAt: 'Synced Fallback',
+          tags: ['Podman', 'RHEL', 'Containers', 'EX188'],
+          repoUrl: 'https://github.com/kiraninurul/ex188'
+        }
+      ];
+
+      let githubState = {
+        connected: false,
+        profile: {
+          login: 'kiraninurul',
+          public_repos: '10+',
+          followers: '—',
+          bio: 'Cloud Ops Engineer • OpenShift, Kubernetes, RHEL & Infrastructure Automation',
+          avatar_url: 'https://github.com/kiraninurul.png',
+          html_url: 'https://github.com/kiraninurul'
+        },
+        syncedRepos: [...fallbackSyncedRepos],
+        activeTab: 'all',
+        searchQuery: '',
+        selectedLang: 'all'
+      };
+
+      const projectsGrid = document.getElementById('projects-grid');
+      const langSelect = document.getElementById('project-lang-filter');
+      const searchInput = document.getElementById('project-search');
+
+      function formatDateID(isoString) {
+        if (!isoString || isoString.includes('Featured') || isoString.includes('Synced') || isoString.includes('SLA')) {
+          return isoString || '';
+        }
+        try {
+          const d = new Date(isoString);
+          return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        } catch {
+          return isoString;
+        }
+      }
+
+      function getAllDisplayedItems() {
+        let items = [];
+        if (githubState.activeTab === 'all') {
+          items = [...featuredProjects, ...githubState.syncedRepos];
+        } else if (githubState.activeTab === 'featured') {
+          items = [...featuredProjects];
+        } else {
+          items = [...githubState.syncedRepos];
+        }
+
+        if (githubState.selectedLang !== 'all') {
+          items = items.filter(item => (item.language || 'Other').toLowerCase() === githubState.selectedLang.toLowerCase());
+        }
+
+        if (githubState.searchQuery.trim() !== '') {
+          const q = githubState.searchQuery.toLowerCase();
+          items = items.filter(item =>
+            item.title.toLowerCase().includes(q) ||
+            item.shortDesc.toLowerCase().includes(q) ||
+            (item.language && item.language.toLowerCase().includes(q)) ||
+            (item.tags && item.tags.some(t => t.toLowerCase().includes(q)))
+          );
+        }
+
+        return items;
+      }
+
+      function updateLanguageDropdown() {
+        const allItems = [...featuredProjects, ...githubState.syncedRepos];
+        const langs = [...new Set(allItems.map(i => i.language).filter(Boolean))];
+        const currentVal = langSelect.value;
+        langSelect.innerHTML = `<option value="all">Semua Bahasa</option>` +
+          langs.map(l => `<option value="${l}">${l}</option>`).join('');
+        if (langs.includes(currentVal)) {
+          langSelect.value = currentVal;
+        }
+      }
+
+      function renderProjects() {
+        const items = getAllDisplayedItems();
+        if (items.length === 0) {
+          projectsGrid.innerHTML = `
+            <div class="col-span-full p-8 rounded-2xl bg-white dark:bg-surface-card border border-slate-200 dark:border-slate-800 text-center space-y-2">
+              <div class="font-mono text-sm text-slate-500 dark:text-slate-400">Tidak ada proyek atau repositori yang cocok dengan filter saat ini.</div>
+            </div>
+          `;
+          return;
+        }
+
+        projectsGrid.innerHTML = items.map((proj, idx) => {
+          const isSynced = proj.type === 'synced';
+          return `
+            <article data-item-index="${idx}" class="project-card cursor-pointer rounded-2xl p-6 bg-white dark:bg-surface-card border border-slate-200 dark:border-slate-800 hover:border-emerald-500/60 hover:-translate-y-1 transition-all flex flex-col justify-between shadow-sm">
+              <div>
+                <div class="flex items-center justify-between gap-2">
+                  <span class="font-mono text-xs ${isSynced ? 'text-cyan-600 dark:text-cyan-400' : 'text-emerald-600 dark:text-emerald-400'} font-medium truncate">
+                    ${proj.category}
+                  </span>
+                  ${proj.language ? `<span class="px-2 py-0.5 rounded-md text-[11px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shrink-0">${proj.language}</span>` : ''}
+                </div>
+
+                <h3 class="text-lg font-bold mt-2 text-slate-900 dark:text-white break-words">${proj.title}</h3>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2.5 leading-relaxed line-clamp-3">${proj.shortDesc}</p>
+              </div>
+
+              <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
+                <div class="flex items-center gap-3 font-mono text-xs text-slate-500 dark:text-slate-400">
+                  ${proj.stars !== null ? `<span>★ ${proj.stars}</span>` : ''}
+                  ${proj.forks !== null ? `<span>⑂ ${proj.forks}</span>` : ''}
+                  <span class="truncate">${formatDateID(proj.updatedAt)}</span>
+                </div>
+                <span class="font-mono text-xs text-emerald-600 dark:text-emerald-400 font-semibold shrink-0">Detail &rarr;</span>
+              </div>
+            </article>
+          `;
+        }).join('');
+
+        document.querySelectorAll('.project-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const item = items[Number(card.dataset.itemIndex)];
+            openProjectModal(item);
+          });
+        });
+      }
+
+      // Tab, Search, and Language Filter Events
+      document.querySelectorAll('.proj-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.proj-tab-btn').forEach(b => {
+            b.classList.remove('bg-emerald-600', 'text-white');
+            b.classList.add('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300');
+          });
+          btn.classList.remove('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300');
+          btn.classList.add('bg-emerald-600', 'text-white');
+          githubState.activeTab = btn.dataset.tab;
+          renderProjects();
+        });
+      });
+
+      searchInput.addEventListener('input', (e) => {
+        githubState.searchQuery = e.target.value;
+        renderProjects();
+      });
+
+      langSelect.addEventListener('change', (e) => {
+        githubState.selectedLang = e.target.value;
+        renderProjects();
+      });
+
+      // Modal & Live README Fetcher
+      const modal = document.getElementById('project-modal');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+
+      async function fetchRepoReadme(repoName) {
+        const readmeBox = document.getElementById('modal-readme-box');
+        const readmeStatus = document.getElementById('modal-readme-status');
+        const readmeContent = document.getElementById('modal-readme-content');
+
+        if (!repoName) {
+          readmeBox.classList.add('hidden');
+          return;
+        }
+
+        readmeBox.classList.remove('hidden');
+        readmeStatus.textContent = 'fetching README.md...';
+        readmeContent.textContent = 'Memuat pratinjau README dari GitHub API...';
+
+        try {
+          const res = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${repoName}/readme`, {
+            headers: { 'Accept': 'application/vnd.github.v3+json' }
+          });
+          if (!res.ok) throw new Error('README tidak tersedia');
+          const data = await res.json();
+          // Decode UTF-8 base64 safely
+          const binaryStr = atob(data.content.replace(/\n/g, ''));
+          const bytes = Uint8Array.from(binaryStr, c => c.charCodeAt(0));
+          const decoded = new TextDecoder('utf-8').decode(bytes);
+          const snippet = decoded.slice(0, 900) + (decoded.length > 900 ? '\n\n... [Lihat selengkapnya di GitHub]' : '');
+          readmeStatus.textContent = 'Live synced';
+          readmeContent.textContent = snippet;
+        } catch (err) {
+          readmeStatus.textContent = 'Summary mode';
+          readmeContent.textContent = `Repositori publik @${GITHUB_USERNAME}/${repoName}. Klik tombol "Buka Repositori GitHub" di bawah untuk melihat kode sumber dan dokumentasi lengkap.`;
+        }
+      }
+
+      function openProjectModal(proj) {
+        document.getElementById('modal-category').textContent = proj.category;
+        document.getElementById('modal-title').textContent = proj.title;
+        document.getElementById('modal-desc').textContent = proj.fullDesc;
+
+        const highlightsBox = document.getElementById('modal-highlights-box');
+        if (proj.highlights && proj.highlights.length > 0) {
+          highlightsBox.classList.remove('hidden');
+          document.getElementById('modal-highlights').innerHTML = proj.highlights.map(h => `<li>${h}</li>`).join('');
+        } else {
+          highlightsBox.classList.add('hidden');
+        }
+
+        const tags = proj.tags && proj.tags.length > 0 ? proj.tags : (proj.language ? [proj.language, 'GitHub'] : ['GitHub']);
+        document.getElementById('modal-tags').innerHTML = tags.map(t => `<span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">${t}</span>`).join('');
+        document.getElementById('modal-repo-link').href = proj.repoUrl;
+
+        const metaParts = [];
+        if (proj.language) metaParts.push(`Lang: ${proj.language}`);
+        if (proj.stars !== null) metaParts.push(`★ ${proj.stars}`);
+        if (proj.updatedAt) metaParts.push(`Updated: ${formatDateID(proj.updatedAt)}`);
+        document.getElementById('modal-meta').textContent = metaParts.join(' • ');
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
+        fetchRepoReadme(proj.repoName);
+      }
+
+      closeModalBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      });
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        }
+      });
+
+      // Fetch Live GitHub Profile & Repos for @kiraninurul
+      async function syncGitHubAccount() {
+        const statusBadge = document.getElementById('gh-sync-status');
+        const terminalBadge = document.getElementById('gh-terminal-badge');
+
+        try {
+          const [userRes, reposRes] = await Promise.all([
+            fetch(`https://api.github.com/users/${GITHUB_USERNAME}`),
+            fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12`)
+          ]);
+
+          if (!userRes.ok || !reposRes.ok) {
+            throw new Error(`GitHub API HTTP ${userRes.status}`);
+          }
+
+          const userData = await userRes.json();
+          const reposData = await reposRes.json();
+
+          githubState.connected = true;
+          githubState.profile = {
+            login: userData.login || GITHUB_USERNAME,
+            public_repos: userData.public_repos ?? '—',
+            followers: userData.followers ?? '—',
+            bio: userData.bio || githubState.profile.bio,
+            avatar_url: userData.avatar_url || githubState.profile.avatar_url,
+            html_url: userData.html_url || `https://github.com/${GITHUB_USERNAME}`
+          };
+
+          if (Array.isArray(reposData) && reposData.length > 0) {
+            githubState.syncedRepos = reposData.map(repo => ({
+              id: `gh-${repo.id}`,
+              repoName: repo.name,
+              type: 'synced',
+              category: repo.fork ? 'Forked Repo • @kiraninurul' : 'Synced Repo • @kiraninurul',
+              title: repo.name,
+              shortDesc: repo.description || `Repositori publik ${repo.name} milik @${GITHUB_USERNAME} di GitHub.`,
+              fullDesc: repo.description || `Repositori publik ${repo.name} yang dikelola di github.com/${GITHUB_USERNAME}/${repo.name}.`,
+              highlights: [
+                `Default branch: ${repo.default_branch || 'main'}`,
+                `Visibility: Public Repository (${repo.size || 0} KB)`,
+                repo.homepage ? `Live URL: ${repo.homepage}` : `Clone URL: https://github.com/${GITHUB_USERNAME}/${repo.name}.git`
+              ],
+              language: repo.language || 'Markdown',
+              stars: repo.stargazers_count ?? 0,
+              forks: repo.forks_count ?? 0,
+              updatedAt: repo.updated_at,
+              tags: (repo.topics && repo.topics.length > 0) ? repo.topics : [repo.language || 'GitHub', 'Open Source'],
+              repoUrl: repo.html_url
+            }));
+          }
+
+          // Update Profile UI
+          document.getElementById('gh-avatar').src = githubState.profile.avatar_url;
+          document.getElementById('gh-bio').textContent = githubState.profile.bio;
+          document.getElementById('gh-repo-count').textContent = githubState.profile.public_repos;
+          document.getElementById('gh-followers-count').textContent = githubState.profile.followers;
+
+          statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>Connected to @${githubState.profile.login}</span>`;
+          terminalBadge.textContent = `gh: @${githubState.profile.login} (${githubState.profile.public_repos} repos)`;
+        } catch (err) {
+          // Graceful fallback if offline or API rate-limited
+          document.getElementById('gh-repo-count').textContent = githubState.profile.public_repos;
+          document.getElementById('gh-followers-count').textContent = githubState.profile.followers;
+          statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span>Cached @${GITHUB_USERNAME}</span>`;
+          terminalBadge.textContent = `gh: @${GITHUB_USERNAME} (cached)`;
+        }
+
+        updateLanguageDropdown();
+        renderProjects();
+      }
+
+      // Initial render + trigger live sync
+      updateLanguageDropdown();
+      renderProjects();
+      syncGitHubAccount();
+
+      // 6. Interactive Hero Terminal Logic
+      const terminalOutput = document.getElementById('terminal-output');
+      const terminalForm = document.getElementById('terminal-form');
+      const terminalInput = document.getElementById('terminal-input');
+      const clearBtn = document.getElementById('terminal-clear-btn');
+
+      const commandsMap = {
+        help: () => `
+          <div class="text-slate-300">Perintah yang tersedia:</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 text-xs text-slate-400 pl-2">
+            <div><span class="text-emerald-400">whoami</span> — Profil &amp; peran saat ini</div>
+            <div><span class="text-emerald-400">gh status</span> — Status live GitHub @kiraninurul</div>
+            <div><span class="text-emerald-400">gh repos</span> — Daftar repositori terbaru</div>
+            <div><span class="text-emerald-400">skills</span> — Daftar keahlian utama</div>
+            <div><span class="text-emerald-400">certs</span> — Sertifikasi &amp; prestasi</div>
+            <div><span class="text-emerald-400">oc get nodes</span> — Simulasi status klaster</div>
+            <div><span class="text-emerald-400">contact</span> — Info kontak langsung</div>
+            <div><span class="text-emerald-400">clear</span> — Bersihkan layar terminal</div>
+          </div>
+        `,
+        whoami: () => `
+          <div class="text-emerald-300 font-semibold">Kirani Nurul Azmi (@kiraninrl / GitHub: @kiraninurul)</div>
+          <div class="text-slate-300">Role: L1 Cloud Ops Engineer @ PT Boer Technology (Btech)</div>
+          <div class="text-slate-400">Focus: OpenShift (OCP), Kubernetes, RHEL, Podman &amp; Python/Bash Automation (99.99% SLA).</div>
+        `,
+        'gh status': () => `
+          <div class="text-emerald-300 font-semibold">GitHub Account: https://github.com/${githubState.profile.login}</div>
+          <div class="text-slate-300">Status: <span class="text-emerald-400">${githubState.connected ? 'Live Synced via GitHub REST API' : 'Cached Fallback Mode'}</span></div>
+          <div class="text-slate-300">Public Repos: <span class="text-cyan-300">${githubState.profile.public_repos}</span> | Followers: <span class="text-cyan-300">${githubState.profile.followers}</span></div>
+          <div class="text-slate-400">Bio: ${githubState.profile.bio}</div>
+        `,
+        'gh repos': () => {
+          const topRepos = githubState.syncedRepos.slice(0, 6);
+          return `
+            <div class="text-cyan-300 font-semibold">Top Repositories (@${GITHUB_USERNAME}):</div>
+            <div class="space-y-1 pl-2 text-xs">
+              ${topRepos.map(r => `
+                <div class="text-slate-200">
+                  • <a href="${r.repoUrl}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 underline hover:text-emerald-300">${r.title}</a>
+                  <span class="text-slate-400">[${r.language || 'Code'}] ★${r.stars ?? 0}</span> — ${r.shortDesc.slice(0, 75)}${r.shortDesc.length > 75 ? '...' : ''}
+                </div>
+              `).join('')}
+            </div>
+          `;
+        },
+        skills: () => `
+          <div class="text-cyan-300">Cloud &amp; Orchestration: <span class="text-slate-300">OpenShift (OCP), Kubernetes, AWS</span></div>
+          <div class="text-cyan-300">Linux &amp; Containers: <span class="text-slate-300">RHEL (RHCSA), Podman, Buildah, Docker, systemd</span></div>
+          <div class="text-cyan-300">Automation &amp; Tools: <span class="text-slate-300">Ansible, Python, Bash, GitLab CI/CD, tmux, Neovim</span></div>
+        `,
+        projects: () => commandsMap['gh repos'](),
+        certs: () => `
+          <div class="text-red-400 font-semibold">[✓] Red Hat Certified System Administrator (RHCSA)</div>
+          <div class="text-amber-300">[★] Juara 1 LKS IT Network Systems Administration — Kab. Tegal 2026</div>
+          <div class="text-cyan-300">[★] Alumni Red Hat Academy Student Ambassador 2025</div>
+        `,
+        contact: () => `
+          <div class="text-slate-200">Domain: <span class="text-emerald-400">https://kiraninrl.my.id</span></div>
+          <div class="text-slate-200">GitHub: <a href="https://github.com/kiraninurul" target="_blank" rel="noopener noreferrer" class="text-cyan-400 underline">https://github.com/kiraninurul</a></div>
+          <div class="text-slate-200">Email: <span class="text-emerald-400">hello@kiraninrl.my.id</span></div>
+        `,
+        'oc get nodes': () => `
+          <pre class="text-[11px] sm:text-xs text-emerald-300 overflow-x-auto">NAME                  STATUS   ROLES           AGE     VERSION
+ocp-master-01.prod    Ready    control-plane   412d    v1.30.4
+ocp-worker-01.prod    Ready    worker          412d    v1.30.4
+ocp-infra-01.prod     Ready    infra,worker    412d    v1.30.4</pre>
+        `,
+        status: () => commandsMap['gh status']()
+      };
+
+      function executeCommand(rawCmd) {
+        const cmd = rawCmd.trim().toLowerCase();
+        if (!cmd) return;
+
+        // Echo user command
+        const cmdLine = document.createElement('div');
+        cmdLine.innerHTML = `<span class="text-emerald-400">kirani@kiraninrl:~$</span> <span class="text-white">${rawCmd.replace(/</g, '&lt;')}</span>`;
+        terminalOutput.appendChild(cmdLine);
+
+        if (cmd === 'clear') {
+          terminalOutput.innerHTML = '';
+          return;
+        }
+
+        const responseDiv = document.createElement('div');
+        if (commandsMap[cmd]) {
+          responseDiv.innerHTML = commandsMap[cmd]();
+        } else {
+          responseDiv.innerHTML = `<span class="text-rose-400">bash: ${rawCmd.replace(/</g, '&lt;')}: command not found.</span> Ketik <span class="text-cyan-400">help</span> untuk daftar perintah.`;
+        }
+        terminalOutput.appendChild(responseDiv);
+        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+      }
+
+      terminalForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        executeCommand(terminalInput.value);
+        terminalInput.value = '';
+      });
+
+      document.querySelectorAll('.cmd-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          executeCommand(chip.dataset.cmd);
+        });
+      });
+
+      clearBtn.addEventListener('click', () => {
+        terminalOutput.innerHTML = '';
+      });
+
+      // 7. Copy Email to Clipboard (using execCommand fallback for universal compatibility)
+      const copyEmailBtn = document.getElementById('copy-email-btn');
+      const emailText = document.getElementById('email-text').textContent;
+      const copyFeedback = document.getElementById('copy-feedback');
+
+      copyEmailBtn.addEventListener('click', () => {
+        const tempInput = document.createElement('input');
+        tempInput.value = emailText;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        try {
+          document.execCommand('copy');
+          copyFeedback.textContent = '✓ Alamat email berhasil disalin ke clipboard!';
+          copyEmailBtn.textContent = 'Copied!';
+        } catch (err) {
+          copyFeedback.textContent = 'Gagal menyalin otomatis, silakan salin manual.';
+        }
+        document.body.removeChild(tempInput);
+
+        setTimeout(() => {
+          copyFeedback.textContent = '';
+          copyEmailBtn.textContent = 'Copy';
+        }, 2500);
+      });
+
+      // 8. Lightweight IntersectionObserver for Smooth Scroll Reveal
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+    });
+  </script>
+</body>
+</html>
